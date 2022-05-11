@@ -12,10 +12,19 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            username: '',
             email: '',
             password: '',
-            show: false
+            confirmPass: '',
+            showPass: false,
+            showConfirm: false
         }
+    }
+
+    handleUsername = (event) => {
+        this.setState({
+            username: event.target.value
+        })
     }
 
     handleEmail = (event) => {
@@ -30,14 +39,27 @@ class Register extends Component {
         })
     }
 
-    handleLogin = () => {
+    handleConfirmPassword = (event) => {
+        this.setState({
+            confirmPass: event.target.value
+        })
+    }
+
+    handleRegister = () => {
         console.log("Email: ", this.state.email);
         console.log("password: ", this.state.password);
+        console.log("confirm pass: ", this.state.confirmPass);
     }
 
     handleShowPassword = () => {
         this.setState({
-            show: !this.state.show
+            showPass: !this.state.showPass
+        })
+    }
+
+    handleShowConfirmPassword = () => {
+        this.setState({
+            showConfirm: !this.state.showConfirm
         })
     }
 
@@ -48,53 +70,48 @@ class Register extends Component {
                 <div className='login-container row col-sm-4'>
                     <div className='login-content'>
                         <h3 className="text-center mb-4 heading">ĐĂNG KÝ</h3>
-                        <form>
-                            <div className="form-group mb-3">
-                                <label className='titleInput' htmlFor="InputEmail1">Email address</label>
-                                <input value={this.state.email} onChange={(event) => this.handleEmail(event)} type="email" className="input" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label className='titleInput' htmlFor="InputPassword1">Password</label>
-                                <div className="d-flex flex-row password-input">
-                                    <input value={this.state.password} onChange={(event) => this.handlePassword(event)} type={this.state.show ? "text" : "password"} className="input" id="InputPassword1" placeholder="Password" />
-                                    <span onClick={() => { this.handleShowPassword() }}>
-                                        {
-                                            this.state.show ?
-                                                <i className="far fa-eye icon-eyes"></i>
-                                                :
-                                                <i className="far fa-eye-slash icon-eyes"></i>
-                                        }
-                                    </span>
-                                </div>
-                            </div>
 
-                            <div className="form-group mb-3">
-                                <label className='titleInput' htmlFor="InputPassword1">Confirm Password</label>
-                                <div className="d-flex flex-row password-input">
-                                    <input value={this.state.password} onChange={(event) => this.handlePassword(event)} type={this.state.show ? "text" : "password"} className="input" id="InputPassword1" placeholder="Password" />
-                                    <span onClick={() => { this.handleShowPassword() }}>
-                                        {
-                                            this.state.show ?
-                                                <i className="far fa-eye icon-eyes"></i>
-                                                :
-                                                <i className="far fa-eye-slash icon-eyes"></i>
-                                        }
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="text-danger my-3">Missing password</div>
-                            <div className=" row justify-content-center my-3 px-3">
-                                <button onClick={() => this.handleLogin()} type="submit" className="btn-block btn-color">Đăng nhập</button>
-                            </div>
-                            <div className="d-flex justify-content-end">
-                                <a href="#"><small className="text-muted">Quên mật khẩu?</small></a>
-                            </div>
-                        </form>
-                        <div className="d-flex flex-row  justify-content-center mt-3">
-                            <p style={{ paddingTop: '12px' }}>Bạn chưa có tài khoản?</p>
-                            <a className="register" href="#">Tham gia TODOnow ngay!</a>
+                        <div className="form-group mb-3">
+                            <label className='titleInput' htmlFor="username">Username</label>
+                            <input value={this.state.username} onChange={(event) => this.handleUsername(event)} type="text" className="input" id="username" placeholder="Username" />
                         </div>
+                        <div className="form-group mb-3">
+                            <label className='titleInput' htmlFor="InputEmail1">Email address</label>
+                            <input value={this.state.email} onChange={(event) => this.handleEmail(event)} type="email" className="input" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                        </div>
+                        <div className="form-group mb-3">
+                            <label className='titleInput' htmlFor="InputPassword1">Password</label>
+                            <div className="d-flex flex-row password-input">
+                                <input value={this.state.password} onChange={(event) => this.handlePassword(event)} type={this.state.showPass ? "text" : "password"} className="input" id="InputPassword1" placeholder="Password" />
+                                <span onClick={() => { this.handleShowPassword() }}>
+                                    {
+                                        this.state.showPass ?
+                                            <i className="far fa-eye icon-eyes"></i>
+                                            :
+                                            <i className="far fa-eye-slash icon-eyes"></i>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="form-group mb-3">
+                            <label className='titleInput' htmlFor="InputPassword1">Confirm Password</label>
+                            <div className="d-flex flex-row password-input">
+                                <input value={this.state.confirmPass} onChange={(event) => this.handleConfirmPassword(event)} type={this.state.showConfirm ? "text" : "password"} className="input" id="InputPassword1" placeholder="Confirm Password" />
+                                <span onClick={() => { this.handleShowConfirmPassword() }}>
+                                    {
+                                        this.state.showConfirm ?
+                                            <i className="far fa-eye icon-eyes"></i>
+                                            :
+                                            <i className="far fa-eye-slash icon-eyes"></i>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                        <div className=" row justify-content-center my-3 px-3">
+                            <button onClick={() => this.handleRegister()} type="submit" className="btn-block btn-color">Đăng ký</button>
+                        </div>
+
                     </div>
                 </div>
             </div>

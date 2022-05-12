@@ -5,8 +5,8 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import { FormattedMessage } from 'react-intl';
 import './Register.scss';
-
-
+import { toast } from 'react-toastify';
+import { handleRegister } from '../../services/userServices';
 
 class Register extends Component {
     constructor(props) {
@@ -21,34 +21,12 @@ class Register extends Component {
         }
     }
 
-    handleUsername = (event) => {
+    handleChangeState = (event, id) => {
+        const oldState = { ...this.state };
+        oldState[id] = event.target.value;
         this.setState({
-            username: event.target.value
-        })
-    }
-
-    handleEmail = (event) => {
-        this.setState({
-            email: event.target.value
-        })
-    }
-
-    handlePassword = (event) => {
-        this.setState({
-            password: event.target.value
-        })
-    }
-
-    handleConfirmPassword = (event) => {
-        this.setState({
-            confirmPass: event.target.value
-        })
-    }
-
-    handleRegister = () => {
-        console.log("Email: ", this.state.email);
-        console.log("password: ", this.state.password);
-        console.log("confirm pass: ", this.state.confirmPass);
+            ...oldState
+        });
     }
 
     handleShowPassword = () => {
@@ -63,6 +41,59 @@ class Register extends Component {
         })
     }
 
+    checkValidate = () => {
+        const input = ["username", "email", "password", "confirmPass"];
+        for (let i = 0; i < input.length; i++) {
+            if (!this.state[input[i]]) {
+                toast.error(input[i] + " can't not be empty!");
+                return false;
+            }
+        }
+
+        if (this.state.password.length < 6) {
+            toast.error("Password must be at least 6 characters!");
+            return false;
+        }
+
+        if (this.state.password !== this.state.confirmPass) {
+            toast.error("Confirm password must be the same as password!");
+            return false;
+        }
+
+        return true;
+    }
+
+    handleRegister = async () => {
+        let isValid = this.checkValidate();
+        if (isValid) {
+            let user = {
+                username: this.state.username,
+                email: this.state.email,
+                password: this.state.password
+            }
+            try {
+                let data = await handleRegister(user);
+                if (data) {
+                    if (data.errorCode !== 1) {
+                        toast.error(data.message);
+                    }
+                    else {
+                        toast.success(data.message);
+                    }
+                }
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    toast.error(error.response.data.message);
+                }
+                else {
+                    toast.error("Network error!");
+                }
+            }
+        }
+    }
+
+
+
 
     render() {
         return (
@@ -73,16 +104,16 @@ class Register extends Component {
 
                         <div className="form-group mb-3">
                             <label className='titleInput' htmlFor="username">Username</label>
-                            <input value={this.state.username} onChange={(event) => this.handleUsername(event)} type="text" className="input" id="username" placeholder="Username" />
+                            <input value={this.state.username} onChange={(event) => this.handleChangeState(event, "username")} type="text" className="input" id="username" placeholder="Username" />
                         </div>
                         <div className="form-group mb-3">
                             <label className='titleInput' htmlFor="InputEmail1">Email address</label>
-                            <input value={this.state.email} onChange={(event) => this.handleEmail(event)} type="email" className="input" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                            <input value={this.state.email} onChange={(event) => this.handleChangeState(event, "email")} type="email" className="input" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                         </div>
                         <div className="form-group mb-3">
                             <label className='titleInput' htmlFor="InputPassword1">Password</label>
                             <div className="d-flex flex-row password-input">
-                                <input value={this.state.password} onChange={(event) => this.handlePassword(event)} type={this.state.showPass ? "text" : "password"} className="input" id="InputPassword1" placeholder="Password" />
+                                <input value={this.state.password} onChange={(event) => this.handleChangeState(event, "password")} type={this.state.showPass ? "text" : "password"} className="input" id="InputPassword1" placeholder="Password" />
                                 <span onClick={() => { this.handleShowPassword() }}>
                                     {
                                         this.state.showPass ?
@@ -97,7 +128,7 @@ class Register extends Component {
                         <div className="form-group mb-3">
                             <label className='titleInput' htmlFor="InputPassword1">Confirm Password</label>
                             <div className="d-flex flex-row password-input">
-                                <input value={this.state.confirmPass} onChange={(event) => this.handleConfirmPassword(event)} type={this.state.showConfirm ? "text" : "password"} className="input" id="InputPassword1" placeholder="Confirm Password" />
+                                <input value={this.state.confirmPass} onChange={(event) => this.handleChangeState(event, "confirmPass")} type={this.state.showConfirm ? "text" : "password"} className="input" id="InputPassword1" placeholder="Confirm Password" />
                                 <span onClick={() => { this.handleShowConfirmPassword() }}>
                                     {
                                         this.state.showConfirm ?
@@ -128,8 +159,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
     };
 };
 

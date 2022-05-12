@@ -35,21 +35,22 @@ class Login extends Component {
 
     handleLogin = async () => {
         try {
-            await handleLoginApi(this.state.email, this.state.password)
-                .then((response) => {
-                    if (response.errorCode !== 1) {
-                        toast.error(response.message);
-                    }
-                    else {
-                        toast.success(response.message);
-                    }
-                })
-            /* .catch((error) => {
-                console.log(error);
-            }) */
+            let data = await handleLoginApi(this.state.email, this.state.password);
+            if (data) {
+                if (data.errorCode !== 1) {
+                    toast.error(data.message);
+                }
+                else {
+                    this.props.userLoginSuccess(data.userData);
+                    toast.success(data.message);
+                }
+            }
         } catch (error) {
             if (error.response && error.response.data) {
                 toast.error(error.response.data.message);
+            }
+            else {
+                toast.error("Network error!");
             }
         }
     }
@@ -114,8 +115,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+        userLoginFail: () => dispatch(actions.userLoginFail()),
+        userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo))
     };
 };
 

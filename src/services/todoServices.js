@@ -12,8 +12,13 @@ const editTodo = (todo) => {
     return axios.put('/api/editTodo', todo);
 }
 
+const deleteTodo = (idUser, id) => {
+    return axios.delete(`/api/deleteTodo?idUser=${idUser}&id=${id}`);
+}
+
 export {
     getAllTodo,
     addTodo,
-    editTodo
+    editTodo,
+    deleteTodo
 }

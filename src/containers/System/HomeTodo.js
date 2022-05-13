@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import "./HomeTodo.scss";
-import { getAllTodo, addTodo, editTodo } from "../../services/todoServices";
+import { getAllTodo, addTodo, editTodo, deleteTodo } from "../../services/todoServices";
 import { toast } from 'react-toastify';
 class HomeTodo extends Component {
 
@@ -12,7 +12,8 @@ class HomeTodo extends Component {
             todoList: [],
             content: '',
             date: '',
-            edit: false
+            edit: false,
+            idTodo: ''
         }
     }
 
@@ -53,7 +54,8 @@ class HomeTodo extends Component {
             await this.handleAddTodo();
         }
         else {
-            alert("edit");
+            // Edit
+            await this.handleEditTodo();
         }
     }
 
@@ -69,6 +71,10 @@ class HomeTodo extends Component {
             if (response) {
                 if (response.errorCode === 1) {
                     await this.getAllTodos();
+                    this.setState({
+                        content: '',
+                        date: ''
+                    })
                 }
             }
 
@@ -83,14 +89,71 @@ class HomeTodo extends Component {
     }
 
     handleEditBtn = async (item) => {
-
         const date = new Date(item.date);
         date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
         this.setState({
             edit: true,
             content: item.content,
-            date: date.toISOString().slice(0, 16)
+            date: date.toISOString().slice(0, 16),
+            idTodo: item.id
         });
+    }
+
+    handleEditTodo = async () => {
+        let { idTodo, content, date } = this.state;
+        const todo = {
+            idUser: this.props.userInfo.id,
+            id: idTodo,
+            content,
+            date
+        }
+
+        try {
+            const response = await editTodo(todo);
+            if (response) {
+                if (response.errorCode === 1) {
+                    toast.success("Update success!");
+                    await this.getAllTodos();
+                    this.setState({
+                        edit: false,
+                        content: '',
+                        date: ''
+                    })
+                }
+                else {
+                    toast.error(response.message);
+                }
+            }
+        } catch (error) {
+            if (error.response && error.response.data) {
+                toast.error(error.response.data.message);
+            }
+            else {
+                toast.error("Network error!");
+            }
+        }
+    }
+
+    handleDelete = async (id) => {
+        try {
+            const response = await deleteTodo(this.props.userInfo.id, id);
+            if (response) {
+                if (response.errorCode === 1) {
+                    toast.success("Delete success!");
+                    await this.getAllTodos();
+                }
+                else {
+                    toast.error(response.message);
+                }
+            }
+        } catch (error) {
+            if (error.response && error.response.data) {
+                toast.error(error.response.data.message);
+            }
+            else {
+                toast.error("Network error!");
+            }
+        }
     }
 
 
@@ -139,7 +202,7 @@ class HomeTodo extends Component {
                                             <th>ID</th>
                                             <th>Nội dung</th>
                                             <th>Thời gian</th>
-                                            <th></th>
+                                            <th>Sửa / Xóa</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -153,7 +216,7 @@ class HomeTodo extends Component {
                                                         <td>{d.toLocaleDateString() + " " + d.toLocaleTimeString()}</td>
                                                         <td className="tdbtn">
                                                             <button onClick={() => this.handleEditBtn(item)} className="btnfix"><i className="far fa-edit"></i></button>
-                                                            <button><i className="fas fa-trash-alt"></i></button>
+                                                            <button onClick={() => this.handleDelete(item.id)}><i className="fas fa-trash-alt"></i></button>
                                                         </td>
                                                     </tr>
                                                 )

@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import './Register.scss';
 import { toast } from 'react-toastify';
 import { handleRegister } from '../../services/userServices';
+import { Redirect } from "react-router-dom";
 
 class Register extends Component {
     constructor(props) {

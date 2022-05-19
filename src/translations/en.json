@@ -26,18 +26,16 @@
         "userpass-wrong": "Invalid username or password!"
     },
     "menu": {
-        "system": {
-            "header": "System",
-            "system-administrator": {
-                "header": "System Administrator",
-                "user-manage": "User manage",
-                "product-manage": "Package manage",
-                "register-package-group-or-account": "Register service package for group/account"
-            },
-            "system-parameter": {
-                "header": "System-parameter"
-            }
-        }
+        "hello": "Hello",
+        "vietnamese": "Vietnamese",
+        "english": "English",
+        "logout": "Log Out"
+    },
+    "table": {
+        "id": "ID",
+        "content": "Content",
+        "deadline": "Deadline",
+        "actions": "Edit / Delete"
     },
     "system": {
         "user-manage": {

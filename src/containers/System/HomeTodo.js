@@ -199,10 +199,10 @@ class HomeTodo extends Component {
                                 <table className="table">
                                     <thead className="title">
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Nội dung</th>
-                                            <th>Thời gian</th>
-                                            <th>Sửa / Xóa</th>
+                                            <th><FormattedMessage id="table.id" /></th>
+                                            <th><FormattedMessage id="table.content" /></th>
+                                            <th><FormattedMessage id="table.deadline" /></th>
+                                            <th><FormattedMessage id="table.actions" /></th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -26,18 +26,16 @@
         "userpass-wrong": "Sai tên đăng nhập hoặc mật khẩu!"
     },
     "menu": {
-        "system": {
-            "header": "Hệ thống",
-            "system-administrator": {
-                "header": "Quản trị hệ thống",
-                "user-manage": "Quản lý người sử dụng",
-                "product-manage": "Quản lý gói",
-                "register-package-group-or-account": "Đăng ký gói dịch vụ cho nhóm/tài khoản"
-            },
-            "system-parameter": {
-                "header": "Tham số hệ thống"
-            }
-        }
+        "hello": "Xin Chào",
+        "vietnamese": "Tiếng Việt",
+        "english": "Tiếng Anh",
+        "logout": "Đăng Xuất"
+    },
+    "table": {
+        "id": "Stt",
+        "content": "Nội Dung",
+        "deadline": "Thời Gian",
+        "actions": "Sửa / Xóa"
     },
     "system": {
         "user-manage": {

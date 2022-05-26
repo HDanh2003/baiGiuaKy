@@ -18,7 +18,8 @@ class Register extends Component {
             password: '',
             confirmPass: '',
             showPass: false,
-            showConfirm: false
+            showConfirm: false,
+            register: false
         }
     }
 
@@ -80,6 +81,9 @@ class Register extends Component {
                     }
                     else {
                         toast.success(data.message);
+                        this.setState({
+                            register: true
+                        });
                     }
                 }
             } catch (error) {
@@ -97,6 +101,10 @@ class Register extends Component {
 
 
     render() {
+        const { register } = this.state;
+        if (register) {
+            return <Redirect to="/login" />
+        }
         return (
             <div className='login-background d-flex justify-content-center align-items-center'>
                 <div className='login-container row col-sm-4'>
@@ -104,15 +112,15 @@ class Register extends Component {
                         <h3 className="text-center mb-4 heading">ĐĂNG KÝ</h3>
 
                         <div className="form-group mb-3">
-                            <label className='titleInput' htmlFor="username">Username</label>
+                            <label className='titleInput' htmlFor="username"><FormattedMessage id="register.username" /></label>
                             <input value={this.state.username} onChange={(event) => this.handleChangeState(event, "username")} type="text" className="input" id="username" placeholder="Username" />
                         </div>
                         <div className="form-group mb-3">
-                            <label className='titleInput' htmlFor="InputEmail1">Email address</label>
+                            <label className='titleInput' htmlFor="InputEmail1"><FormattedMessage id="register.email" /></label>
                             <input value={this.state.email} onChange={(event) => this.handleChangeState(event, "email")} type="email" className="input" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                         </div>
                         <div className="form-group mb-3">
-                            <label className='titleInput' htmlFor="InputPassword1">Password</label>
+                            <label className='titleInput' htmlFor="InputPassword1"><FormattedMessage id="register.password" /></label>
                             <div className="d-flex flex-row password-input">
                                 <input value={this.state.password} onChange={(event) => this.handleChangeState(event, "password")} type={this.state.showPass ? "text" : "password"} className="input" id="InputPassword1" placeholder="Password" />
                                 <span onClick={() => { this.handleShowPassword() }}>
@@ -127,7 +135,7 @@ class Register extends Component {
                         </div>
 
                         <div className="form-group mb-3">
-                            <label className='titleInput' htmlFor="InputPassword1">Confirm Password</label>
+                            <label className='titleInput' htmlFor="InputPassword1"><FormattedMessage id="register.confirm-pass" /></label>
                             <div className="d-flex flex-row password-input">
                                 <input value={this.state.confirmPass} onChange={(event) => this.handleChangeState(event, "confirmPass")} type={this.state.showConfirm ? "text" : "password"} className="input" id="InputPassword1" placeholder="Confirm Password" />
                                 <span onClick={() => { this.handleShowConfirmPassword() }}>
@@ -141,7 +149,7 @@ class Register extends Component {
                             </div>
                         </div>
                         <div className=" row justify-content-center my-3 px-3">
-                            <button onClick={() => this.handleRegister()} type="submit" className="btn-block btn-color">Đăng ký</button>
+                            <button onClick={() => this.handleRegister()} type="submit" className="btn-block btn-color"><FormattedMessage id="register.submit" /></button>
                         </div>
 
                     </div>

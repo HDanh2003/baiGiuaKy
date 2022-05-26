@@ -29,9 +29,9 @@ class Header extends Component {
                             <FormattedMessage id="menu.english" />
                         </span>
                     </li>
-                    <li className="menu-item">
+                    <li className="menu-item" onClick={processLogout}>
                         <a href="#0">
-                            <div className="btn btn-logout" onClick={processLogout}>
+                            <div className="btn btn-logout">
                                 <i className="fas fa-sign-out-alt"></i>
                             </div>
                             <FormattedMessage id="menu.logout" />

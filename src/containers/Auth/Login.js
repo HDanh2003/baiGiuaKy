@@ -66,14 +66,14 @@ class Login extends Component {
             <div className='login-background d-flex justify-content-center align-items-center'>
                 <div className='login-container row col-sm-4'>
                     <div className='login-content'>
-                        <h3 className="text-center mb-4 heading">ĐĂNG NHẬP</h3>
+                        <h3 className="text-center mb-4 heading"><FormattedMessage id="login.login" /></h3>
 
                         <div className="form-group mb-3">
-                            <label className='titleInput' htmlFor="InputEmail1">Email address</label>
-                            <input value={this.state.email} onChange={(event) => this.handleEmail(event)} type="email" className="input" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                            <label className='titleInput' htmlFor="InputEmail1"><FormattedMessage id="login.email" /></label>
+                            <input value={this.state.email} onChange={(event) => this.handleEmail(event)} type="email" className="input" id="InputEmail1" aria-describedby="emailHelp" placeholder="Email" />
                         </div>
                         <div className="form-group mb-3">
-                            <label className='titleInput' htmlFor="InputPassword1">Password</label>
+                            <label className='titleInput' htmlFor="InputPassword1"><FormattedMessage id="login.password" /></label>
                             <div className="d-flex flex-row password-input">
                                 <input value={this.state.password} onChange={(event) => this.handlePassword(event)} type={this.state.show ? "text" : "password"} className="input" id="InputPassword1" placeholder="Password" />
                                 <span onClick={() => { this.handleShowPassword() }}>
@@ -86,18 +86,16 @@ class Login extends Component {
                                 </span>
                             </div>
                         </div>
-
-                        <div className="text-danger my-3">Missing password</div>
                         <div className=" row justify-content-center my-3 px-3">
-                            <button onClick={() => this.handleLogin()} className="btn-block btn-color">Đăng nhập</button>
+                            <button onClick={() => this.handleLogin()} className="btn-block btn-color"><FormattedMessage id="login.submit" /></button>
                         </div>
                         <div className="d-flex justify-content-end">
                             <a href="#"><small className="text-muted">Quên mật khẩu?</small></a>
                         </div>
 
                         <div className="d-flex flex-row  justify-content-center mt-3">
-                            <p style={{ paddingTop: '12px' }}>Bạn chưa có tài khoản?</p>
-                            <Link className='register' to="/register">Tham gia TODOnow ngay!</Link>
+                            <p style={{ paddingTop: '12px' }}><FormattedMessage id="login.account" /></p>
+                            <Link className='register' to="/register"><FormattedMessage id="login.join" /></Link>
                         </div>
                     </div>
                 </div>

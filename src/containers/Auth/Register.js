@@ -109,7 +109,7 @@ class Register extends Component {
             <div className='login-background d-flex justify-content-center align-items-center'>
                 <div className='login-container row col-sm-4'>
                     <div className='login-content'>
-                        <h3 className="text-center mb-4 heading">ĐĂNG KÝ</h3>
+                        <h3 className="text-center mb-4 heading"><FormattedMessage id="register.register" /></h3>
 
                         <div className="form-group mb-3">
                             <label className='titleInput' htmlFor="username"><FormattedMessage id="register.username" /></label>

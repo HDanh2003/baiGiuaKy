@@ -10,6 +10,9 @@ import { handleRegister } from '../../services/userServices';
 import { Redirect } from "react-router-dom";
 
 class Register extends Component {
+
+    OK = 'OK'
+
     constructor(props) {
         super(props);
         this.state = {
@@ -74,13 +77,13 @@ class Register extends Component {
                 password: this.state.password
             }
             try {
-                let data = await handleRegister(user);
-                if (data) {
-                    if (data.errorCode !== 1) {
-                        toast.error(data.message);
+                let response = await handleRegister(user);
+                if (response) {
+                    if (response.message != this.OK) {
+                        toast.error(response.message);
                     }
                     else {
-                        toast.success(data.message);
+                        toast.success(response.message);
                         this.setState({
                             register: true
                         });

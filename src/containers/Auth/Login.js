@@ -12,6 +12,9 @@ import { handleLoginApi } from "../../services/userServices"
 
 
 class Login extends Component {
+
+    OK = 'OK'
+
     constructor(props) {
         super(props);
         this.state = {
@@ -35,14 +38,14 @@ class Login extends Component {
 
     handleLogin = async () => {
         try {
-            let data = await handleLoginApi(this.state.email, this.state.password);
-            if (data) {
-                if (data.errorCode !== 1) {
-                    toast.error(data.message);
+            let response = await handleLoginApi(this.state.email, this.state.password);
+            if (response) {
+                if (response.message != this.OK) {
+                    toast.error(response.message);
                 }
                 else {
-                    this.props.userLoginSuccess(data.userData);
-                    toast.success(data.message);
+                    this.props.userLoginSuccess(response.data);
+                    toast.success(response.message);
                 }
             }
         } catch (error) {

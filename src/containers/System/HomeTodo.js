@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import "./HomeTodo.scss";
 import { getAllTodo, addTodo, editTodo, deleteTodo } from "../../services/todoServices";
 import { toast } from 'react-toastify';
+
 class HomeTodo extends Component {
+
+    OK = 'OK'
 
     constructor(props) {
         super(props);
@@ -24,9 +27,9 @@ class HomeTodo extends Component {
     getAllTodos = async () => {
         try {
             let response = await getAllTodo(this.props.userInfo.id);
-            if (response.errorCode === 1) {
+            if (response.message == this.OK) {
                 this.setState({
-                    todoList: response.data
+                    todoList: response.data.items
                 })
             }
 
@@ -69,7 +72,7 @@ class HomeTodo extends Component {
         }
         else {
             const todo = {
-                idUser: this.props.userInfo.id,
+                app_user_id: this.props.userInfo.id,
                 content: this.state.content,
                 date: this.state.date,
             }
@@ -77,7 +80,7 @@ class HomeTodo extends Component {
             try {
                 const response = await addTodo(todo);
                 if (response) {
-                    if (response.errorCode === 1) {
+                    if (response.message == this.OK) {
                         await this.getAllTodos();
                         this.setState({
                             content: '',
@@ -111,16 +114,15 @@ class HomeTodo extends Component {
     handleEditTodo = async () => {
         let { idTodo, content, date } = this.state;
         const todo = {
-            idUser: this.props.userInfo.id,
             id: idTodo,
             content,
             date
         }
 
         try {
-            const response = await editTodo(todo);
+            const response = await editTodo(idTodo, todo);
             if (response) {
-                if (response.errorCode === 1) {
+                if (response.message == this.OK) {
                     toast.success("Update success!");
                     await this.getAllTodos();
                     this.setState({
@@ -145,9 +147,9 @@ class HomeTodo extends Component {
 
     handleDelete = async (id) => {
         try {
-            const response = await deleteTodo(this.props.userInfo.id, id);
+            const response = await deleteTodo(id);
             if (response) {
-                if (response.errorCode === 1) {
+                if (response.message == this.OK) {
                     toast.success("Delete success!");
                     await this.getAllTodos();
                 }

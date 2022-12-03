@@ -1,19 +1,19 @@
 import axios from "../axios";
 
-const getAllTodo = (userId) => {
-    return axios.get(`/api/getTodos?userId=${userId}`);
+const getAllTodo = (app_user_id) => {
+    return axios.get(`/api/v1/todo?app_user_id=${app_user_id}`);
 }
 
 const addTodo = (todo) => {
-    return axios.post('/api/addTodo', todo);
+    return axios.post('/api/v1/todo', todo);
 }
 
-const editTodo = (todo) => {
-    return axios.put('/api/editTodo', todo);
+const editTodo = (id, todo) => {
+    return axios.put(`/api/v1/todo/${id}`, todo);
 }
 
-const deleteTodo = (idUser, id) => {
-    return axios.delete(`/api/deleteTodo?idUser=${idUser}&id=${id}`);
+const deleteTodo = (id) => {
+    return axios.delete(`/api/v1/todo/${id}`);
 }
 
 export {
